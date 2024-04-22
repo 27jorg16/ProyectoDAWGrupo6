@@ -13,7 +13,8 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String username;
-    private String password;
+    @Lob
+    private byte[] password;
     private String correo;
     @ManyToOne
     @JoinColumn(name = "rolid")

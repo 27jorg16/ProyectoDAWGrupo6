@@ -12,7 +12,7 @@ CREATE TABLE roles (
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
+    password BLOB NOT NULL,
     correo VARCHAR(255) UNIQUE NOT NULL,
     rolid INT,
     FOREIGN KEY (rolid) REFERENCES roles (id)
@@ -94,14 +94,14 @@ END;
 
 -- Agregar usuario
 DELIMITER //
-CREATE PROCEDURE AgregarUsuario(IN username VARCHAR(50), IN password VARCHAR(255), IN correo VARCHAR(255), IN rolid INT)
+CREATE PROCEDURE AgregarUsuario(IN username VARCHAR(50), IN password BLOB, IN correo VARCHAR(255), IN rolid INT)
 BEGIN
     INSERT INTO usuarios (username, password, correo, rolid) VALUES (username, password, correo, rolid);
 END;
 
 -- Actualizar usuario
 DELIMITER //
-CREATE PROCEDURE EditarUsuario(IN id INT, IN username VARCHAR(50), IN password VARCHAR(255), IN correo VARCHAR(255), IN rolid INT)
+CREATE PROCEDURE EditarUsuario(IN id INT, IN username VARCHAR(50), IN password BLOB, IN correo VARCHAR(255), IN rolid INT)
 BEGIN
     UPDATE usuarios SET username = username, password = password, correo = correo, rolid = rolid WHERE id = id;
 END;
@@ -119,7 +119,7 @@ CREATE PROCEDURE ListarEmpleados()
 BEGIN
     SELECT * FROM empleados;
 END;
-drop procedure if exists ListarEmpleados;
+
 -- Agregar empleado
 DELIMITER //
 CREATE PROCEDURE AgregarEmpleado(IN nombre VARCHAR(100), IN apellido VARCHAR(100), IN cargo VARCHAR(50), IN salario DECIMAL(10,2), IN usuarioid INT)
@@ -224,28 +224,47 @@ CREATE PROCEDURE EliminarVenta(IN id INT)
 BEGIN
     DELETE FROM ventas WHERE id = id;
 END;
-/*falta completar registros
+
 -- Agregar registros
 
 INSERT INTO roles (nombre) VALUES
 ('admin'),
 ('empleado');
 
--- falta insertar correctamente, sale un error
 INSERT INTO usuarios (username, password, correo, rolid) VALUES
 ('juancho98',aes_encrypt('987456321456987','j4u8a6n2157'),'juancito_98@gmail.com','2'),
-('dennis456',aes_encrypt('321456987412365','d2e6n4n4i8s'),'den_di2008@hotmail.com','1');
+('dennis456',aes_encrypt('321456987412365','d2e6n4n4i8s'),'den_di2008@hotmail.com','1'),
+('samuel777',aes_encrypt('thesamuel777gf','s7a7m7u7e7l7'),'samu_el777@gmail.com','2');
+
+INSERT INTO empleados (nombre, apellido, cargo, salario, usuarioid) VALUES
+('Juan','Ruiz','Vendedor', 1500, 1),
+('samuel','DeLuque','Asistente', 1250, 3);
+
+INSERT INTO clientes (nombre, apellido, direccion, telefono) VALUES
+('Maria','Rodiguez','Calle B, Ciudad','987-654-3210'),
+('Darwin','Pocco','Calle Farfan 505','123-456-7890'),
+('Hana','Valdivieso','Av. siempre viva nro 56','986654221');
 
 INSERT INTO instrumentos (nombre, tipo, precio, stock) VALUES
-('Guitarra', 'Cuerdas', 500.00),
-('Batería', 'Percusión', 1000.00);
+('Guitarra', 'Cuerda', 500.00, 32),
+('Batería', 'Percusión', 1000.00, 15),
+('Flauta', 'Viento', 800.00, 50),
+('Piano', 'Cuerda', 4000.00, 5);
 
-INSERT INTO cliente (nombre, direccion, telefono, nombre_instrumento, nombre_empleado) VALUES
-('Juan Pérez', 'Calle A, Ciudad', '123-456-7890', 'Guitarra', 'Vendedor'),
-('María Rodríguez', 'Calle B, Ciudad', '987-654-3210', 'Batería', 'Vendedor');
+INSERT INTO ventas (fecha, cantidad, precio_unitario, clienteid, empleadoid, instrumentoid) VALUES
+(STR_TO_DATE('22-04-2023','%d-%m-%Y'), 2, 800.00, 3, 1, 3),
+(STR_TO_DATE('25-07-2023','%d-%m-%Y'), 1, 500.00, 2, 2, 1),
+(STR_TO_DATE('01-09-2023','%d-%m-%Y'), 1, 1000.00, 1, 1, 2);
 
-INSERT INTO empleado (nombre, cargo, salario, cliente_nombre) VALUES
-('Pérez', 'Vendedor', 1500.00, 'Juan Pérez'),
-('Gómez', 'Vendedor', 1750.00, 'María Rodríguez');
-*/
+-- Consultando si se registro correctamente en la tabla venta y sus referencias
+SELECT v.fecha, v.cantidad, v.precio_unitario, 
+       v.clienteid, c.id AS cliente_id, c.nombre AS cliente_nombre, 
+       v.empleadoid, e.id AS empleado_id, e.nombre AS empleado_nombre, 
+       v.instrumentoid, i.id AS instrumento_id, i.nombre AS instrumento_nombre
+FROM ventas v 
+INNER JOIN clientes c ON v.clienteid = c.id
+INNER JOIN empleados e ON v.empleadoid = e.id
+INNER JOIN instrumentos i ON v.instrumentoid = i.id
+WHERE c.id = 3;
+
 
