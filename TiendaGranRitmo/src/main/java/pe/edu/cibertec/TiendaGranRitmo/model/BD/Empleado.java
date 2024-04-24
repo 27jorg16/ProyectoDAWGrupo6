@@ -16,7 +16,4 @@ public class Empleado {
     private String apellido;
     private String cargo;
     private double salario;
-    @ManyToOne
-    @JoinColumn(name = "usuarioid")
-    private Usuario usuario;
 }

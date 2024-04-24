@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.Set;
+
 @AllArgsConstructor
 @Data
 @Entity
@@ -13,10 +15,12 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String username;
-    @Lob
-    private byte[] password;
+    private String password;
     private String correo;
-    @ManyToOne
-    @JoinColumn(name = "rolid")
-    private Rol rol;
+    @ManyToMany(cascade = CascadeType.MERGE,
+            fetch = FetchType.EAGER)
+    @JoinTable(name = "roles_usuarios",
+            joinColumns = @JoinColumn(name = "rolid"),
+            inverseJoinColumns = @JoinColumn(name = "usuarioid"))
+    private Set<Rol> roles;
 }
