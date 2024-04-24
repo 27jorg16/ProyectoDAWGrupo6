@@ -1,10 +1,9 @@
 package pe.edu.cibertec.TiendaGranRitmo.model.BD;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@AllArgsConstructor
+
 @Entity
 @Data
 @Table(name = "empleados")

@@ -3,10 +3,11 @@ package pe.edu.cibertec.TiendaGranRitmo.model.BD;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
-@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "usuarios")
