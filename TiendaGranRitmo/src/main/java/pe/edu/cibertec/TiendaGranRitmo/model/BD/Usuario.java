@@ -18,6 +18,7 @@ public class Usuario {
     private String username;
     private String password;
     private String correo;
+    private Boolean activo;
     @ManyToMany(cascade = CascadeType.MERGE,
             fetch = FetchType.EAGER)
     @JoinTable(name = "roles_usuarios",

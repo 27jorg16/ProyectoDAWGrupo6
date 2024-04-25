@@ -13,7 +13,8 @@ CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
     password varchar(255) NOT NULL,
-    correo VARCHAR(255) UNIQUE NOT NULL
+    correo VARCHAR(255) UNIQUE NOT NULL,
+    activo BOOLEAN NULL
 );
 
 CREATE TABLE roles_usuarios(
