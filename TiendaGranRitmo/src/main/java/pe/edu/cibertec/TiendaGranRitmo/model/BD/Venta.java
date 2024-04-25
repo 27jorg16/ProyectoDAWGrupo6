@@ -2,9 +2,11 @@ package pe.edu.cibertec.TiendaGranRitmo.model.BD;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "ventas")
