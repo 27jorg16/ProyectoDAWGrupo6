@@ -13,7 +13,7 @@ CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
     password varchar(255) NOT NULL,
-    correo VARCHAR(255) UNIQUE NOT NULL,
+    correo VARCHAR(255) NULL,
     activo BOOLEAN NULL
 );
 
@@ -36,24 +36,24 @@ CREATE TABLE empleados (
 CREATE TABLE clientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
-    apellido VARCHAR(100) NOT NULL,
-    direccion VARCHAR(255) NOT NULL,
-    telefono VARCHAR(20)
+    apellido VARCHAR(100) NULL,
+    direccion VARCHAR(255) NULL,
+    telefono VARCHAR(20) NULL
 );
 
 CREATE TABLE instrumentos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
-    tipo VARCHAR(50),
+    tipo VARCHAR(50) NOT NULL,
     precio DECIMAL(10, 2) NOT NULL,
     stock INT NOT NULL
 );
 
 CREATE TABLE ventas (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    fecha DATE,
-    cantidad INT,
-    precio_unitario DECIMAL(10,2),
+    fecha DATE NOT NULL,
+    cantidad INT NOT NULL,
+    precio_unitario DECIMAL(10,2) NOT NULL,
     clienteid INT,
     empleadoid INT,
     instrumentoid INT,
