@@ -1,24 +1,23 @@
 package pe.edu.cibertec.TiendaGranRitmo.service;
 
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pe.edu.cibertec.TiendaGranRitmo.model.BD.Empleado;
+import pe.edu.cibertec.TiendaGranRitmo.model.bd.Empleado;
 import pe.edu.cibertec.TiendaGranRitmo.repository.EmpleadoRepository;
 
 import java.util.List;
 
-@NoArgsConstructor
+@AllArgsConstructor
 @Service
 public class EmpleadoService implements IEmpleadoService{
     private EmpleadoRepository empleadoRepository;
-
     @Override
-    public List<Empleado> listarEmpleados() {
+    public List<Empleado> listEmpleado() {
         return empleadoRepository.findAll();
     }
 
     @Override
-    public void registrarEmpleado(Empleado empleado) {
+    public void registerEmpleado(Empleado empleado) {
         empleadoRepository.save(empleado);
     }
 }

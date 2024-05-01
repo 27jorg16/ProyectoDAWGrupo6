@@ -1,12 +1,12 @@
 package pe.edu.cibertec.TiendaGranRitmo.service;
 
-import pe.edu.cibertec.TiendaGranRitmo.model.BD.Instrumento;
+import pe.edu.cibertec.TiendaGranRitmo.model.bd.Instrumento;
 
 import java.util.List;
 
 public interface IInstrumentoService {
+    List<Instrumento> listInstrumento();
 
-    List<Instrumento> listarInstrumentos();
+    void registerInstrumento(Instrumento instrumento);
 
-    void registrarInstrumentos(Instrumento instrumento);
 }

@@ -1,34 +1,58 @@
 package pe.edu.cibertec.TiendaGranRitmo.service;
 
-import pe.edu.cibertec.TiendaGranRitmo.model.BD.Usuario;
+import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import pe.edu.cibertec.TiendaGranRitmo.model.bd.Rol;
+import pe.edu.cibertec.TiendaGranRitmo.model.bd.Usuario;
+import pe.edu.cibertec.TiendaGranRitmo.repository.RolRepository;
+import pe.edu.cibertec.TiendaGranRitmo.repository.UsuarioRepository;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
-public class UsuarioService implements IUsuarioService{
-
+@AllArgsConstructor
+@Service
+public class UsuarioService implements IUsuarioService {
+    private UsuarioRepository usuarioRepository;
+    private RolRepository rolRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Override
-    public Usuario findUserByUserName(String username) {
-        return null;
+    public Usuario findUserByNomUsuario(String nomusuario){
+        return usuarioRepository.findByNomusuario(nomusuario);
     }
-
     @Override
-    public Usuario guardarUsuario(Usuario usuario) {
-        return null;
+    public Usuario guardarUsuario(Usuario usuario){
+        usuario.setPassword(bCryptPasswordEncoder.encode(
+                "123456"));
+        usuario.setActivo(true);
+        //Buscar el rol que le compete al usuario
+        Rol usuarioRol = rolRepository.findByNomrol("ADMIN");
+        usuario.setRoles(new HashSet<>(Arrays.asList(usuarioRol)));
+        return usuarioRepository.save(usuario);
     }
 
     @Override
     public List<Usuario> listarUsuarios() {
-        return List.of();
+        return usuarioRepository.findAll();
     }
 
     @Override
-    public Usuario obtenerUsuariobyId(int id) {
-        return null;
+    public Usuario obtenerUsuarioxId(int id) {
+        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+        usuario.setPassword("");
+        return usuario;
     }
 
     @Override
     public void actualizarUsuario(Usuario usuario) {
-
+        usuarioRepository.actualizarUsuario(
+                usuario.getNombres(), usuario.getApellidos(),
+                usuario.getActivo(), usuario.getIdusuario()
+        );
     }
+
+
 }

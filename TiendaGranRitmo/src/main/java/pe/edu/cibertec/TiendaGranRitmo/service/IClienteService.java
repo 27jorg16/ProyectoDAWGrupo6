@@ -1,12 +1,12 @@
 package pe.edu.cibertec.TiendaGranRitmo.service;
 
-import pe.edu.cibertec.TiendaGranRitmo.model.BD.Cliente;
+import pe.edu.cibertec.TiendaGranRitmo.model.bd.Cliente;
 
 import java.util.List;
 
 public interface IClienteService {
+    List<Cliente> listCliente();
 
-    List<Cliente> listarClientes();
+    void registerCliente(Cliente cliente);
 
-    void registrarCliente(Cliente cliente);
 }

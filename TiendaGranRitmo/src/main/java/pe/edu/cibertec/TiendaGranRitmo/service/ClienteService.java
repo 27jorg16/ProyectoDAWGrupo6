@@ -2,23 +2,22 @@ package pe.edu.cibertec.TiendaGranRitmo.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pe.edu.cibertec.TiendaGranRitmo.model.BD.Cliente;
+import pe.edu.cibertec.TiendaGranRitmo.model.bd.Cliente;
 import pe.edu.cibertec.TiendaGranRitmo.repository.ClienteRepository;
 
 import java.util.List;
 
 @AllArgsConstructor
 @Service
-public class ClienteService implements IClienteService {
+public class ClienteService implements IClienteService{
     private ClienteRepository clienteRepository;
-
     @Override
-    public List<Cliente> listarClientes() {
+    public List<Cliente> listCliente() {
         return clienteRepository.findAll();
     }
 
     @Override
-    public void registrarCliente(Cliente cliente) {
+    public void registerCliente(Cliente cliente) {
         clienteRepository.save(cliente);
     }
 }

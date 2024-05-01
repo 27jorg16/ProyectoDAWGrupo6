@@ -1,12 +1,12 @@
 package pe.edu.cibertec.TiendaGranRitmo.service;
 
-import pe.edu.cibertec.TiendaGranRitmo.model.BD.Empleado;
+import pe.edu.cibertec.TiendaGranRitmo.model.bd.Empleado;
 
 import java.util.List;
 
 public interface IEmpleadoService {
+    List<Empleado> listEmpleado();
 
-    List<Empleado> listarEmpleados();
+    void registerEmpleado(Empleado empleado);
 
-    void registrarEmpleado(Empleado empleado);
 }

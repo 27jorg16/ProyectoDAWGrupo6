@@ -1,8 +1,13 @@
 package pe.edu.cibertec.TiendaGranRitmo.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import pe.edu.cibertec.TiendaGranRitmo.model.BD.Rol;
+import org.springframework.stereotype.Repository;
+import pe.edu.cibertec.TiendaGranRitmo.model.bd.Rol;
 
-public interface RolRepository extends JpaRepository<Rol,Integer> {
-    Rol findByNomRol(String nomrol);
+@Repository
+public interface RolRepository extends
+        JpaRepository<Rol, Integer> {
+
+    Rol findByNomrol(String nombrerol);
+
 }
