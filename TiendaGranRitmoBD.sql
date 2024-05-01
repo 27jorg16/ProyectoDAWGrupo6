@@ -1,82 +1,84 @@
-DROP DATABASE IF EXISTS TiendaGranRitmo;
-
-CREATE DATABASE TiendaGranRitmo;
-
-USE TiendaGranRitmo;
-
-CREATE TABLE roles (
-	id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50) UNIQUE
+CREATE TABLE usuario (
+	idusuario INT auto_increment NOT NULL,
+	nomusuario varchar(100) NULL,
+	email varchar(200) NULL,
+	password varchar(300) NULL,
+	nombres varchar(100) NULL,
+	apellidos varchar(100) NULL,
+	activo BOOL NULL,
+	CONSTRAINT users_pk PRIMARY KEY (idusuario)
 );
 
-CREATE TABLE usuarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) UNIQUE NOT NULL,
-    password varchar(255) NOT NULL,
-    correo VARCHAR(255) NULL,
-    activo BOOLEAN NULL
+
+CREATE TABLE rol (
+	idrol INT auto_increment NOT NULL,
+	nomrol varchar(300) NULL,
+	CONSTRAINT roles_pk PRIMARY KEY (idrol)
 );
 
-CREATE TABLE roles_usuarios(
-	rolid INT,
-    usuarioid INT,
-    CONSTRAINT rol_usuario_pk PRIMARY KEY (rolid,usuarioid),
-    CONSTRAINT rol_fk FOREIGN KEY (rolid) REFERENCES roles (id),
-    CONSTRAINT usuario_fk FOREIGN KEY (usuarioid) REFERENCES usuarios (id)
+
+CREATE TABLE usuario_rol (
+	idusuario INT NOT NULL,
+	idrol INT NOT NULL,
+	CONSTRAINT user_role_pk PRIMARY KEY (idusuario, idrol),
+	CONSTRAINT user_role_FK FOREIGN KEY (idusuario) REFERENCES TiendaGranRitmoBD.usuario(idusuario),
+	CONSTRAINT user_role_FK_1 FOREIGN KEY (idrol) REFERENCES TiendaGranRitmoBD.rol(idrol)
 );
+
 
 CREATE TABLE empleados (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idempleado INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
     cargo VARCHAR(50) NOT NULL,
     salario DECIMAL(10, 2) NOT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE clientes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idcliente INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NULL,
     direccion VARCHAR(255) NULL,
     telefono VARCHAR(20) NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE instrumentos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idinstrumento INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     tipo VARCHAR(50) NOT NULL,
     precio DECIMAL(10, 2) NOT NULL,
     stock INT NOT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE ventas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idventa INT AUTO_INCREMENT PRIMARY KEY,
     fecha DATE NOT NULL,
     cantidad INT NOT NULL,
     precio_unitario DECIMAL(10,2) NOT NULL,
     clienteid INT,
     empleadoid INT,
     instrumentoid INT,
-    FOREIGN KEY (clienteid) REFERENCES clientes(id),
-    FOREIGN KEY (empleadoid) REFERENCES empleados(id),
-    FOREIGN KEY (instrumentoid) REFERENCES instrumentos(id)
-);
+    FOREIGN KEY (clienteid) REFERENCES clientes(idcliente),
+    FOREIGN KEY (empleadoid) REFERENCES empleados(idempleado),
+    FOREIGN KEY (instrumentoid) REFERENCES instrumentos(idinstrumento)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Agregar registros
 
-INSERT INTO roles (nombre) VALUES
-('admin'),
-('vendedor');
+INSERT INTO rol (nomrol) VALUES 
+('ADMIN');
 
-INSERT INTO usuarios (username, password, correo) VALUES
-('dennis456','$2y$10$jrsuJ0qgUfJTTuGh4lNoOuMC2o9T.ORqgVOcA8bmOn3N46Oh1MdOe','den_di2008@hotmail.com'),
-('juancho98','$2y$10$lssAehDoITuRLdxU9ZlKm.ngMdgwIu.NH1awtK6yH7kSd0nBbAO.K','juancito_98@gmail.com'),
-('samuel777','$2y$10$Qq31eJO0IqcCbMe5kWKAguWrdCQdDFtwCxsnoJ8bj2.XBsJ05bLpa','samu_el777@gmail.com');
+INSERT INTO usuario (nomusuario, email, password, nombres, apellidos, activo) VALUES 
+('jvaldivieso', 'jvaldivieso@gmail.com', '$2a$10$jE5KlkekK4dF.pK0lMcBU.GJgVTvYif9lxIiFNRQos/vudLbQb1Te', 'Jorge', 'Valdivieso', true),
+('jmazuelos', 'jmazuelos@gmail.com', '$2a$10$UiKJ.I2ijbE2ZAp.BheNwud6Xw5bmsB5ho1EYfkTq2tcPjW2qrxNC', 'Juan', 'Mazuelos', true),
+('aperez', 'aperez@gmail.com', '$2a$10$NUompy469c31xqHdPiLrvOueDeDkplLCeVgdEnA2okJbbt20Z6vMS', 'Abel', 'Pérez', true),
+('afernandez', 'afernandez@gmail.com', '$2a$10$cAndeIIyvSVoF/2ZxkQsv.y6/VyTFKtBwoSaEnvzg0Nsul9fU.01.', 'Abrahan', 'Fernandez', true);
 
-INSERT INTO roles_usuarios (rolid, usuarioid) VALUES 
-(1,1),
-(2,2),
-(2,3);
+INSERT INTO usuario_rol (idusuario, idrol)
+VALUES (1, 1), 
+       (2, 1),
+       (3, 1),
+       (4, 1); 
 
 INSERT INTO empleados (nombre, apellido, cargo, salario) VALUES
 ('Juan','Ruiz','Vendedor', 1500),
@@ -94,21 +96,20 @@ INSERT INTO instrumentos (nombre, tipo, precio, stock) VALUES
 ('Piano', 'Cuerda', 4000.00, 5);
 
 INSERT INTO ventas (fecha, cantidad, precio_unitario, clienteid, empleadoid, instrumentoid) VALUES
-(STR_TO_DATE('22-04-2023','%d-%m-%Y'), 2, 800.00, 3, 1, 3),
-(STR_TO_DATE('25-07-2023','%d-%m-%Y'), 1, 500.00, 2, 2, 1),
-(STR_TO_DATE('01-09-2023','%d-%m-%Y'), 1, 1000.00, 1, 1, 2);
+('2023-04-22', 2, 800.00, 3, 1, 3),
+('2023-07-25', 1, 500.00, 2, 2, 1),
+('2023-09-01', 1, 1000.00, 1, 1, 2);
 
 -- Consultando si se registro correctamente en la tabla venta y sus referencias
 SELECT v.fecha, v.cantidad, v.precio_unitario, 
-       v.clienteid, c.id AS cliente_id, c.nombre AS cliente_nombre, 
-       v.empleadoid, e.id AS empleado_id, e.nombre AS empleado_nombre, 
-       v.instrumentoid, i.id AS instrumento_id, i.nombre AS instrumento_nombre
+       v.clienteid, c.idcliente AS cliente_id, c.nombre AS cliente_nombre, 
+       v.empleadoid, e.idempleado AS empleado_id, e.nombre AS empleado_nombre, 
+       v.instrumentoid, i.idinstrumento AS instrumento_id, i.nombre AS instrumento_nombre
 FROM ventas v 
-INNER JOIN clientes c ON v.clienteid = c.id
-INNER JOIN empleados e ON v.empleadoid = e.id
-INNER JOIN instrumentos i ON v.instrumentoid = i.id
-WHERE c.id = 3;
-
+INNER JOIN clientes c ON v.clienteid = c.idcliente
+INNER JOIN empleados e ON v.empleadoid = e.idempleado
+INNER JOIN instrumentos i ON v.instrumentoid = i.idinstrumento
+WHERE c.idcliente = 3;
 /*
 -- Listar roles
 DELIMITER //
