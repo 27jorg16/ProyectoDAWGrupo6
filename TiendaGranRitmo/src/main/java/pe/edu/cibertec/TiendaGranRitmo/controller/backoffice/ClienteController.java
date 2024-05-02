@@ -22,6 +22,13 @@ public class ClienteController {
         model.addAttribute("listcliente", iClienteService.listCliente());
         return "backoffice/cliente/formcliente";
     }
+
+    @GetMapping("/get")
+    @ResponseBody
+    public List<Cliente> getClientes(){
+        return iClienteService.listCliente();
+    }
+
     @GetMapping("/list")
     @ResponseBody
     public List<Cliente> listCliente(){

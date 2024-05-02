@@ -24,6 +24,12 @@ public class InstrumentoController {
         return "backoffice/instrumento/forminstrumento";
     }
 
+    @GetMapping("/get")
+    @ResponseBody
+    public List<Instrumento> getInstrumentos(){
+        return iInstrumentoService.listInstrumento();
+    }
+
     @GetMapping("/list")
     @ResponseBody
     public List<Instrumento> listInstrumento(){

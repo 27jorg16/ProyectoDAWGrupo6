@@ -47,10 +47,13 @@ public class VentaController {
             venta.setPrecio_unitario(ventaRequest.getPrecioUnitario());
             Cliente cliente = new Cliente();
             cliente.setIdcliente(ventaRequest.getClienteId());
+            venta.setCliente(cliente);
             Empleado empleado = new Empleado();
             empleado.setIdempleado(ventaRequest.getEmpleadoId());
+            venta.setEmpleado(empleado);
             Instrumento instrumento = new Instrumento();
             instrumento.setIdinstrumento(ventaRequest.getInstrumentoId());
+            venta.setInstrumento(instrumento);
             iVentaService.registerVenta(venta);
         }catch (Exception ex){
             mensaje = "Venta no registrada, error en la BD.";

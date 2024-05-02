@@ -1,20 +1,21 @@
 $(document).on("click", "#btnagregar", function(){
-    $("#txtnombre").val("");
-    $("#txttipo").val("");
-    $("#txtprecio").val("");
-    $("#txtstock").val("");
-    $("#hddinstrumentocod").val("0");
+    $("#txtnominstrumento").val("");
+    $("#txttipoinstrumento").val("");
+    $("#txtprecioinstrumento").val("");
+    $("#txtstockinstrumento").val("");
+    $("#hddinstcod").val("0"); // Variable corregida: 'hddinstcod' en lugar de 'hddinstrumentocod'
     $("#modalinstrumento").modal("show");
 });
 
 $(document).on("click", ".btnactualizar", function(){
-    $("#txtnombre").val($(this).attr("data-nombre"));
-    $("#txttipo").val($(this).attr("data-tipo"));
-    $("#txtprecio").val($(this).attr("data-precio"));
-    $("#txtstock").val($(this).attr("data-stock"));
-    $("#hddinstrumentocod").val($(this).attr("data-instrcod"));
+    $("#txtnominstrumento").val($(this).attr("data-instnom"));
+    $("#txttipoinstrumento").val($(this).attr("data-insttipo"));
+    $("#txtprecioinstrumento").val($(this).attr("data-instprecio"));
+    $("#txtstockinstrumento").val($(this).attr("data-inststock"));
+    $("#hddinstcod").val($(this).attr("data-instcod"));
     $("#modalinstrumento").modal("show");
 });
+
 
 $(document).on("click", "#btnguardar", function(){
     $.ajax({
@@ -22,15 +23,16 @@ $(document).on("click", "#btnguardar", function(){
         url: "/instrumento/registerInstrumento",
         contentType: "application/json",
         data: JSON.stringify({
-            idinstrumento: $("#hddinstrumentocod").val(),
-            nombre: $("#txtnombre").val(),
-            tipo: $("#txttipo").val(),
-            precio: $("#txtprecio").val(),
-            stock: $("#txtstock").val()
+            idinstrumento: $("#hddinstcod").val(),
+            nombre: $("#txtnominstrumento").val(),
+            tipo: $("#txttipoinstrumento").val(),
+            precio: $("#txtprecioinstrumento").val(),
+            stock: $("#txtstockinstrumento").val()
         }),
         success: function(resultado){
             if(resultado.respuesta){
                 listarInstrumentos();
+                location.reload();
             }
             alert(resultado.mensaje);
         }
@@ -39,10 +41,9 @@ $(document).on("click", "#btnguardar", function(){
 });
 
 $(document).on("click", ".btneliminar", function(){
-    var instrumentoId = $(this).attr("data-instrcod"); // Obtener el ID del instrumento a eliminar
-    $("#modalEliminarInstrumento").modal("show"); // Mostrar el modal de confirmación
+    var instrumentoId = $(this).attr("data-instcod"); // Variable corregida: 'data-instcod' en lugar de 'data-instrcod'
+    $("#modalEliminarInstrumento").modal("show");
 
-    // Al confirmar la eliminación
     $("#btnConfirmarEliminar").unbind().click(function() {
         $.ajax({
             type: "DELETE",
@@ -50,12 +51,13 @@ $(document).on("click", ".btneliminar", function(){
             success: function(resultado){
                 if(resultado.respuesta){
                     listarInstrumentos();
-                    $("#modalEliminarInstrumento").modal("hide");
+                    location.reload();
+
                 }
                 alert(resultado.mensaje);
             }
         });
-
+        $("#modalEliminarInstrumento").modal("hide");
     });
 });
 
@@ -74,14 +76,13 @@ function listarInstrumentos(){
                 newRow.append(`<td>${value.precio}</td>`);
                 newRow.append(`<td>${value.stock}</td>`);
                 newRow.append(`<td><button type='button' class='btn btn-primary btnactualizar' ` +
-                    `data-instrcod="${value.idinstrumento}" ` +
+                    `data-instcod="${value.idinstrumento}" ` +
                     `data-nombre="${value.nombre}" ` +
                     `data-tipo="${value.tipo}" ` +
                     `data-precio="${value.precio}" ` +
                     `data-stock="${value.stock}">Actualizar</button></td>`);
-
                 newRow.append(`<td><button type='button' class='btn btn-danger btneliminarinstrumento' ` +
-                    `data-instrcod="${value.idinstrumento}">Eliminar</button></td>`);
+                    `data-instcod="${value.idinstrumento}">Eliminar</button></td>`);
                 $("#tblinstrumento > tbody").append(newRow);
             });
         }

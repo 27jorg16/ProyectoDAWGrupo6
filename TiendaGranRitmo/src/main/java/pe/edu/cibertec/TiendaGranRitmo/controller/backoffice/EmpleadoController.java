@@ -22,6 +22,13 @@ public class EmpleadoController {
         model.addAttribute("listempleado", iEmpleadoService.listEmpleado());
         return "backoffice/empleado/formempleado";
     }
+
+    @GetMapping("/get")
+    @ResponseBody
+    public List<Empleado> getEmpleados(){
+        return iEmpleadoService.listEmpleado();
+    }
+
     @GetMapping("/list")
     @ResponseBody
     public List<Empleado> listEmpleado(){

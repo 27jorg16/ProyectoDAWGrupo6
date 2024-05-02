@@ -31,6 +31,7 @@ $(document).on("click", "#btnguardar", function(){
         success: function(resultado){
             if(resultado.respuesta){
                 listarClientes();
+                location.reload();
             }
             alert(resultado.mensaje);
         }
@@ -51,12 +52,12 @@ $(document).on("click", ".btneliminar", function(){
             success: function(resultado){
                 if(resultado.respuesta){
                     listarClientes();
-                    ("#modalEliminarEmpleadoLabel").modal("hide");
+                    location.reload();
                 }
                 alert(resultado.mensaje);
             }
         });
-        $
+        $("#modalEliminarCliente").modal("hide");
     });
 });
 function listarClientes(){
@@ -80,7 +81,6 @@ function listarClientes(){
                     `data-cliedir="${value.direccion}" ` +
                     `data-clietel="${value.telefono}">Actualizar` +
                     `</button></td>`);
-
                 newRow.append(`<td><button type='button' class='btn btn-danger btneliminar' ` +
                     `data-cliecod="${value.idcliente}">Eliminar` +
                     `</button></td>`);
