@@ -2,9 +2,7 @@ $(document).on("click", "#btnagregar", function(){
     $("#txtfecha").val("");
     $("#txtcantidad").val("");
     $("#txtprecio_unitario").val("");
-    $("#cmbcliente").val("");
-    $("#cmbempleado").val("");
-    $("#cmbinstrumento").val("");
+    listarClienteProductoInstrumento(0, 0, 0);
     $("#hddventacod").val("0");
     $("#modalventa").modal("show");
 });
@@ -13,9 +11,12 @@ $(document).on("click", ".btnactualizar", function(){
     $("#txtfecha").val($(this).attr("data-ventafecha"));
     $("#txtcantidad").val($(this).attr("data-ventacantidad"));
     $("#txtprecio_unitario").val($(this).attr("data-ventaprecio"));
-    $("#cmbcliente").val($(this).attr("data-ventacliente"));
-    $("#cmbempleado").val($(this).attr("data-ventaempleado"));
-    $("#cmbinstrumento").val($(this).attr("data-ventainstrumento"));
+    $("#cboclienteventa").empty();
+    $("#cboempleadoventa").empty();
+    $("#cboinstrumentoventa").empty();
+    listarClienteProductoInstrumento($(this).attr("data-ventacliente"),
+                                          $(this).attr("data-ventainstrumento"),
+                                          $(this).attr("data-ventaempleado"));
     $("#hddventacod").val($(this).attr("data-ventacod"));
     $("#modalventa").modal("show");
 });
@@ -31,13 +32,13 @@ $(document).on("click", "#btnguardar", function(){
             cantidad: $("#txtcantidad").val(),
             precio_unitario: $("#txtprecio_unitario").val(),
             cliente: {
-                idcliente: $("#cmbcliente").val()
+                idcliente: $("#cboclienteventa").val()
             },
             empleado: {
-                idempleado: $("#cmbempleado").val()
+                idempleado: $("#cboempleadoventa").val()
             },
             instrumento: {
-                idinstrumento: $("#cmbinstrumento").val()
+                idinstrumento: $("#cboinstrumentoventa").val()
             }
         }),
         success: function(resultado){
@@ -48,26 +49,6 @@ $(document).on("click", "#btnguardar", function(){
         }
     });
     $("#modalventa").modal("hide");
-});
-
-// Evento click para el botón eliminar
-$(document).on("click", ".btneliminarventa", function(){
-    var ventaId = $(this).attr("data-ventacod"); // Obtener el ID de la venta a eliminar
-    $("#modalEliminarVenta").modal("show"); // Mostrar el modal de confirmación
-
-    // Al confirmar la eliminación
-    $("#btnConfirmarEliminarVenta").unbind().click(function() {
-        $.ajax({
-            type: "DELETE",
-            url: "/venta/deleteVenta/" + ventaId,
-            success: function(resultado){
-                if(resultado.respuesta){
-                    listarVentas();
-                }
-                alert(resultado.mensaje);
-            }
-        });
-    });
 });
 
 function listarVentas(){
@@ -105,3 +86,53 @@ function listarVentas(){
         }
     });
 }
+listarClienteProductoInstrumento(0, 0, 0);
+
+function listarClienteProductoInstrumento(idCliente, idEmpleado, idInstrumento){
+    $.ajax({
+        type: "GET",
+        url: "/cliente/get",
+        dataType: "json",
+        success: function(resultado){
+            $.each(resultado, function(index, value){
+                $("#cboclienteventa").append(
+                    `<option value="${value.idcliente}">${cliente.nombre}</option>`
+                );
+            });
+            if(idCliente > 0){
+                $("#cboclienteventa").val(idCliente);
+            }
+            $.ajax({
+                type: "GET",
+                url: "/empleado/get",
+                dataType: "json",
+                success: function(resultado){
+                    $.each(resultado, function(index, value){
+                        $("#cboempleadoventa").append(
+                            `<option value="${value.idempleado}">${empleado.nombre}</option>`
+                        );
+                    });
+                    if(idProducto > 0){
+                        $("#cboempleadoventa").val(idEmpleado);
+                    }
+                    $.ajax({
+                        type: "GET",
+                        url: "/instrumento/get",
+                        dataType: "json",
+                        success: function(resultado){
+                            $.each(resultado, function(index, value){
+                                $("#cboinstrumento").append(
+                                    `<option value="${value.idinstrumento}">${instrumento.nombre}</option>`
+                                );
+                            });
+                            if(idInstrumento > 0){
+                                $("#cboinstrumento").val(idInstrumento);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
