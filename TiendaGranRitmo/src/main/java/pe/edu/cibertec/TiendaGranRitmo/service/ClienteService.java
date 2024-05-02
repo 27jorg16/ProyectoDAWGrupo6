@@ -20,4 +20,11 @@ public class ClienteService implements IClienteService{
     public void registerCliente(Cliente cliente) {
         clienteRepository.save(cliente);
     }
+
+    @Override
+    public void deleteCliente(Integer idcliente) {
+        clienteRepository.deleteById(idcliente);
+    }
+
+
 }

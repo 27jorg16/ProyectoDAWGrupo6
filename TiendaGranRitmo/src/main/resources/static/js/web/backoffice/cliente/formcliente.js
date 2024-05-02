@@ -38,6 +38,27 @@ $(document).on("click", "#btnguardar", function(){
     $("#modalcliente").modal("hide");
 });
 
+// Evento click para el botón eliminar
+$(document).on("click", ".btneliminar", function(){
+    var clienteId = $(this).attr("data-cliecod"); // Obtener el ID del cliente a eliminar
+    $("#modalEliminarCliente").modal("show"); // Mostrar el modal de confirmación
+
+    // Al confirmar la eliminación
+    $("#btnConfirmarEliminar").unbind().click(function() {
+        $.ajax({
+            type: "DELETE",
+            url: "/cliente/deleteCliente/" + clienteId,
+            success: function(resultado){
+                if(resultado.respuesta){
+                    listarClientes();
+                }
+                alert(resultado.mensaje);
+            }
+        });
+    });
+});
+
+
 function listarClientes(){
     $.ajax({
         type: "GET",

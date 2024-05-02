@@ -9,4 +9,5 @@ public interface IClienteService {
 
     void registerCliente(Cliente cliente);
 
+    void deleteCliente(Integer idcliente);
 }

@@ -6,4 +6,5 @@ import pe.edu.cibertec.TiendaGranRitmo.model.bd.Cliente;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente,Integer> {
+    void deleteByIdcliente(Integer idcliente);
 }

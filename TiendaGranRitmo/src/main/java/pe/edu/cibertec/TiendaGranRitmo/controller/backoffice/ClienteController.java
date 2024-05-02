@@ -48,4 +48,17 @@ public class ClienteController {
         }
         return ClienteResponse.builder().mensaje(mensaje).respuesta(respuesta).build();
     }
+    @DeleteMapping("/deleteCliente/{id}")
+    @ResponseBody
+    public ClienteResponse deleteCliente(@PathVariable Integer id) {
+        String mensaje = "Cliente eliminado correctamente";
+        boolean respuesta = true;
+        try {
+            iClienteService.deleteCliente(id);
+        } catch (Exception ex) {
+            mensaje = "Error al eliminar el cliente";
+            respuesta = false;
+        }
+        return ClienteResponse.builder().mensaje(mensaje).respuesta(respuesta).build();
+    }
 }
