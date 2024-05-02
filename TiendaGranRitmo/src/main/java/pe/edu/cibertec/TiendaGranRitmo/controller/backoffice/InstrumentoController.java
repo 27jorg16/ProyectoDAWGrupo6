@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.cibertec.TiendaGranRitmo.model.bd.Instrumento;
-import pe.edu.cibertec.TiendaGranRitmo.model.bd.Venta;
 import pe.edu.cibertec.TiendaGranRitmo.model.dto.request.InstrumentoRequest;
+import pe.edu.cibertec.TiendaGranRitmo.model.dto.response.ClienteResponse;
 import pe.edu.cibertec.TiendaGranRitmo.model.dto.response.InstrumentoResponse;
 import pe.edu.cibertec.TiendaGranRitmo.service.IInstrumentoService;
 
@@ -46,6 +46,19 @@ public class InstrumentoController {
             iInstrumentoService.registerInstrumento(instrumento);
         }catch (Exception ex){
             mensaje = "Instrumento no registrado, error en la BD.";
+            respuesta = false;
+        }
+        return InstrumentoResponse.builder().mensaje(mensaje).respuesta(respuesta).build();
+    }
+    @DeleteMapping("/deleteInstrumento/{id}")
+    @ResponseBody
+    public InstrumentoResponse deleteInstrumento(@PathVariable Integer id) {
+        String mensaje = "Instrumento eliminado correctamente";
+        boolean respuesta = true;
+        try {
+            iInstrumentoService.deleteInstrumento(id);
+        } catch (Exception ex) {
+            mensaje = "Error al eliminar el instrumento";
             respuesta = false;
         }
         return InstrumentoResponse.builder().mensaje(mensaje).respuesta(respuesta).build();

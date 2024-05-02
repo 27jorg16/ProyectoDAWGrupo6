@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pe.edu.cibertec.TiendaGranRitmo.model.bd.Cliente;
 import pe.edu.cibertec.TiendaGranRitmo.model.bd.Empleado;
-import pe.edu.cibertec.TiendaGranRitmo.model.bd.Venta;
 import pe.edu.cibertec.TiendaGranRitmo.model.dto.request.EmpleadoRequest;
 import pe.edu.cibertec.TiendaGranRitmo.model.dto.response.EmpleadoResponse;
 import pe.edu.cibertec.TiendaGranRitmo.service.IEmpleadoService;
@@ -50,5 +48,17 @@ public class EmpleadoController {
         }
         return EmpleadoResponse.builder().mensaje(mensaje).respuesta(respuesta).build();
     }
-
+    @DeleteMapping("/deleteEmpleado/{id}")
+    @ResponseBody
+    public EmpleadoResponse deleteEmpleado(@PathVariable Integer id) {
+        String mensaje = "Empleado eliminado correctamente";
+        boolean respuesta = true;
+        try {
+            iEmpleadoService.deleteEmpleado(id);
+        } catch (Exception ex) {
+            mensaje = "Error al eliminar el empleado";
+            respuesta = false;
+        }
+        return EmpleadoResponse.builder().mensaje(mensaje).respuesta(respuesta).build();
+    }
 }

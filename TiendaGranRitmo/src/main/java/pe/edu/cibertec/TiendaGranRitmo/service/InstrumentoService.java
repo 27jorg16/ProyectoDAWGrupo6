@@ -20,4 +20,9 @@ public class InstrumentoService implements IInstrumentoService{
     public void registerInstrumento(Instrumento instrumento) {
         instrumentoRepository.save(instrumento);
     }
+
+    @Override
+    public void deleteInstrumento(Integer idinstrumento) {
+        instrumentoRepository.deleteById(idinstrumento);
+    }
 }

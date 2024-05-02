@@ -9,4 +9,6 @@ public interface IInstrumentoService {
 
     void registerInstrumento(Instrumento instrumento);
 
+    void deleteInstrumento(Integer idinstrumento);
+
 }

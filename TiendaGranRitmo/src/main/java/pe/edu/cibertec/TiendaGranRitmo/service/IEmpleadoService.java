@@ -9,4 +9,6 @@ public interface IEmpleadoService {
 
     void registerEmpleado(Empleado empleado);
 
+    void deleteEmpleado(Integer idempleado);
+
 }

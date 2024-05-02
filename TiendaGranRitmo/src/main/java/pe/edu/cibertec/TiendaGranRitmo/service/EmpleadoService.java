@@ -20,4 +20,9 @@ public class EmpleadoService implements IEmpleadoService{
     public void registerEmpleado(Empleado empleado) {
         empleadoRepository.save(empleado);
     }
+
+    @Override
+    public void deleteEmpleado(Integer idempleado) {
+        empleadoRepository.deleteById(idempleado);
+    }
 }

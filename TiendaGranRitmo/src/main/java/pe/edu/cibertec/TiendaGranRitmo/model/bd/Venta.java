@@ -16,7 +16,7 @@ public class Venta {
     private Integer idventa;
     @Column(name = "fecha")
     private Date fecha;
-    @Column(name = "nombre")
+    @Column(name = "cantidad")
     private Integer cantidad;
     @Column(name = "precio_unitario")
     private Double precio_unitario;
