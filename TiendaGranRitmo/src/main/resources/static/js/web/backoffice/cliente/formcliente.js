@@ -51,14 +51,14 @@ $(document).on("click", ".btneliminar", function(){
             success: function(resultado){
                 if(resultado.respuesta){
                     listarClientes();
+                    ("#modalEliminarEmpleadoLabel").modal("hide");
                 }
                 alert(resultado.mensaje);
             }
         });
+        $
     });
 });
-
-
 function listarClientes(){
     $.ajax({
         type: "GET",
@@ -67,21 +67,28 @@ function listarClientes(){
         success: function(resultado){
             $("#tblcliente > tbody").html("");
             $.each(resultado, function(index, value){
-                $("#tblcliente > tbody").append(`<tr>`+
-                `<td>${value.idcliente}</td>`+
-                `<td>${value.nombre}</td>`+
-                `<td>${value.apellido}</td>`+
-                `<td>${value.direccion}</td>`+
-                `<td>${value.telefono}</td>`+
-                `<td><button type='button' class='btn btn-primary btnactualizar' `+
-                    `data-cliecod="${value.idcliente}" `+
-                    `data-clienom="${value.nombre}" `+
-                    `data-clieape="${value.apellido}" `+
-                    `data-cliedir="${value.direccion}" `+
-                    `data-clietel="${value.telefono}">Actualizar`+
-                `</button></td>`+
-                `</tr>`);
+                var newRow = $("<tr>");
+                newRow.append(`<td>${value.idcliente}</td>`);
+                newRow.append(`<td>${value.nombre}</td>`);
+                newRow.append(`<td>${value.apellido}</td>`);
+                newRow.append(`<td>${value.direccion}</td>`);
+                newRow.append(`<td>${value.telefono}</td>`);
+                newRow.append(`<td><button type='button' class='btn btn-primary btnactualizar' ` +
+                    `data-cliecod="${value.idcliente}" ` +
+                    `data-clienom="${value.nombre}" ` +
+                    `data-clieape="${value.apellido}" ` +
+                    `data-cliedir="${value.direccion}" ` +
+                    `data-clietel="${value.telefono}">Actualizar` +
+                    `</button></td>`);
+
+                newRow.append(`<td><button type='button' class='btn btn-danger btneliminar' ` +
+                    `data-cliecod="${value.idcliente}">Eliminar` +
+                    `</button></td>`);
+
+                $("#tblcliente > tbody").append(newRow);
             });
         }
     });
 }
+
+
