@@ -81,7 +81,7 @@ function listarClientes(){
                     `data-cliedir="${value.direccion}" ` +
                     `data-clietel="${value.telefono}">Actualizar` +
                     `</button></td>`);
-                newRow.append(`<td><button type='button' class='btn btn-danger btneliminar' ` +
+                newRow.append(`<td><button type='button' class='btn btn-outline-danger btneliminar' ` +
                     `data-cliecod="${value.idcliente}">Eliminar` +
                     `</button></td>`);
 
@@ -90,5 +90,4 @@ function listarClientes(){
         }
     });
 }
-
 

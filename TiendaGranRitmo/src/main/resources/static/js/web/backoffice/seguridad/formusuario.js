@@ -8,10 +8,12 @@ $(document).on("click", "#btnagregar", function(){
     $("#hddidusuario").val("0");
     $("#switchusuario").hide();
     $("#cbactivo").prop("checked", false);
+    $("#cbactivo").prop("disabled", false); // Habilitar la casilla de verificación
     $("#divmsgpassword").show();
     $("#btnenviar").hide();
     $("#modalusuario").modal("show");
 });
+
 $(document).on("click", ".btnactualizar", function(){
     $.ajax({
         type: "GET",
@@ -28,10 +30,10 @@ $(document).on("click", ".btnactualizar", function(){
            $("#switchusuario").show();
            $("#divmsgpassword").hide();
            $("#btnenviar").show();
-           if(resultado.activo)
-              $("#cbactivo").prop("checked", true);
-           else
-              $("#cbactivo").prop("checked", false);
+
+           // Modificar el estado de la casilla de verificación
+           $("#cbactivo").prop("checked", resultado.activo);
+           $("#cbactivo").prop("disabled", false); // Habilitar la modificación
         }
     })
     $("#modalusuario").modal("show");
@@ -68,18 +70,31 @@ function listarUsuarios(){
         success: function(resultado){
             $("#tblusuario > tbody").html("");
             $.each(resultado, function(index, value){
-                $("#tblusuario > tbody").append(`<tr>`+
-                `<td>${value.nombres}</td>`+
-                `<td>${value.apellidos}</td>`+
-                `<td>${value.nomusuario}</td>`+
-                `<td>${value.email}</td>`+
-                `<td>${value.activo}</td>`+
-                `<td><button type='button' class='btn btn-primary btnactualizar' `+
-                    `data-usuid="${value.idusuario}">Actualizar`+
-                `</button></td>`+
-                `</tr>`);
+                // Generar una fila de tabla para cada usuario
+                var fila = $("<tr>");
+                fila.append($("<td>").text(value.nombres));
+                fila.append($("<td>").text(value.apellidos));
+                fila.append($("<td>").text(value.nomusuario));
+                fila.append($("<td>").text(value.email));
+
+                // Crear la casilla de verificación para "Activo"
+                var activoCheckbox = $("<input>").attr({
+                    type: "checkbox",
+                    disabled: true // Deshabilitar la modificación inicialmente
+                }).prop("checked", value.activo);
+
+                // Agregar la casilla de verificación a la fila de la tabla
+                fila.append($("<td>").append(activoCheckbox));
+
+                // Agregar botón de "Actualizar" a la fila de la tabla
+                var actualizarBtn = $("<button>").addClass("btn btn-primary btnactualizar")
+                                    .attr("data-usuid", value.idusuario)
+                                    .text("Actualizar");
+                fila.append($("<td>").append(actualizarBtn));
+
+                // Agregar la fila a la tabla de usuarios
+                $("#tblusuario > tbody").append(fila);
             });
         }
     });
 }
-
