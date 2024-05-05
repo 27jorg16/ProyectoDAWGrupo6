@@ -55,7 +55,6 @@ function listarVentas(){
             $("#tblventa > tbody").html("");
             $.each(resultado, function(index, value){
                 var newRow = $("<tr>");
-                newRow.append(`<td>${value.idventa}</td>`);
                 newRow.append(`<td>${value.fecha}</td>`);
                 newRow.append(`<td>${value.cantidad}</td>`);
                 newRow.append(`<td>${value.precio_unitario}</td>`);
@@ -70,10 +69,6 @@ function listarVentas(){
                     `data-ventacliente="${value.cliente.idcliente}" ` +
                     `data-ventaempleado="${value.empleado.idempleado}" ` +
                     `data-ventainstrumento="${value.instrumento.idinstrumento}">Actualizar` +
-                    `</button></td>`);
-
-                newRow.append(`<td><button type='button' class='btn btn-danger btneliminarventa' ` +
-                    `data-ventacod="${value.idventa}">Eliminar` +
                     `</button></td>`);
 
                 $("#tblventa > tbody").append(newRow);

@@ -82,7 +82,7 @@ function listarEmpleados(){
                     `data-empcargo="${value.cargo}" ` +
                     `data-empsalario="${value.salario}">Actualizar` +
                     `</button></td>`);
-                newRow.append(`<td><button type='button' class='btn btn-outline-danger btneliminarempleado' ` +
+                newRow.append(`<td><button type='button' class='btn btn-danger btneliminarempleado' ` +
                     `data-empcod="${value.idempleado}">Eliminar` +
                     `</button></td>`);
 

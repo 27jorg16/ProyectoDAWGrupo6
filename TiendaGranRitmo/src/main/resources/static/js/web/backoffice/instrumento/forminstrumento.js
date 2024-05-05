@@ -81,7 +81,7 @@ function listarInstrumentos(){
                     `data-tipo="${value.tipo}" ` +
                     `data-precio="${value.precio}" ` +
                     `data-stock="${value.stock}">Actualizar</button></td>`);
-                newRow.append(`<td><button type='button' class='btn btn-outline-danger btneliminarinstrumento' ` +
+                newRow.append(`<td><button type='button' class='btn btn-danger btneliminarinstrumento' ` +
                     `data-instcod="${value.idinstrumento}">Eliminar</button></td>`);
                 $("#tblinstrumento > tbody").append(newRow);
             });
