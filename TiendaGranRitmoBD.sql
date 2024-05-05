@@ -81,8 +81,8 @@ VALUES (1, 1),
        (4, 1); 
 
 INSERT INTO empleados (nombre, apellido, cargo, salario) VALUES
-('Juan','Ruiz','Vendedor', 1500),
-('samuel','DeLuque','Asistente', 1250);
+('Juan','Ruiz','cajero', 1500),
+('samuel','DeLuque','cajero', 1250);
 
 INSERT INTO clientes (nombre, apellido, direccion, telefono) VALUES
 ('Maria','Rodiguez','Calle B, Ciudad','987-654-3210'),
